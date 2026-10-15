@@ -3,8 +3,9 @@ and the structured audit-trail entry written to PostgreSQL."""
 
 from __future__ import annotations
 
+import operator
 from datetime import datetime, timezone
-from typing import Literal, TypedDict
+from typing import Annotated, Literal, TypedDict
 
 from pydantic import BaseModel, Field
 
@@ -133,6 +134,8 @@ class ReviewState(TypedDict, total=False):
     human_choice: HumanChoice | None
     human_feedback: str | None
     escalation_answers: dict[str, str] | None
+    reviewer_slot: str
+    reviewer_answers: Annotated[list[dict[str, dict[str, str]]], operator.add]
 
     # Populated by commit / final nodes
     posted_comment_body: str | None
